@@ -15,6 +15,11 @@ const ENTRY = "Hey, you make my lights flicker. Press B4 \u2014 I'm sweet, cold,
 if (ENTRY.length < 1 || ENTRY.length > 200 || ENTRY.trim().length === 0) {
   throw new Error(`entry.txt must be 1-200 non-blank characters, got ${ENTRY.length}`);
 }
+// Revised after the first local run: a pickup line must be speakable in
+// one breath, so any newline is a hard fail, not a silent trim.
+if (ENTRY.includes("\n") || ENTRY.includes("\r")) {
+  throw new Error("entry.txt must be a single line");
+}
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
